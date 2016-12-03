@@ -108,9 +108,9 @@ router.route('/:id')
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
-        console.log('GET Retrieving ID: ' + blob._id);
+        console.log('GET Retrieving ID: ' + student._id);
         if (typeof query !== 'undefined' && query !== null){
-           var studentdoa = blob.dob.toISOString();
+           var studentdoa = student.doa.toISOString();
             studentdoa = studentdoa.substring(0, studentdoa.indexOf('T'));
         } else {
           var studentdoa = "No date given";
@@ -118,7 +118,7 @@ router.route('/:id')
         
         res.format({
           html: function(){
-              res.render('blobs/show', {
+              res.render('students/show', {
                 "studentdoa" : studentdoa,
                 "student" : student
               });
@@ -147,7 +147,7 @@ router.get('/:id/edit', function(req, res) {
                 //HTML response will render the 'edit.jade' template
                 html: function(){
                        res.render('students/edit', {
-                          title: 'Student' + stidemt._id,
+                          title: 'Student' + student._id,
                           "studentdoa" : studentdoa,
                           "student" : student
                       });
@@ -170,7 +170,7 @@ router.put('/:id/edit', function(req, res) {
     var gender = req.body.gender;
     var doa = req.body.dob;
 
-    mongoose.model('Student').findById(req.id, function (err, blob) {
+    mongoose.model('Student').findById(req.id, function (err, student) {
         //update it
         student.update({
             name : name,
@@ -189,7 +189,7 @@ router.put('/:id/edit', function(req, res) {
                            res.redirect("/students/" + student._id);
                      },
                      json: function(){
-                           res.json(blob);
+                           res.json(student);
                      }
                   });
            }

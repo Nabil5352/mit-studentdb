@@ -9,6 +9,11 @@ html( lang="en" )
         link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
         link(rel='stylesheet', href='/stylesheets/style.css')
     body(style="padding-bottom:10rem;")
+        if (error && error.length > 0)
+        br
+        h4.error-msg= error
+        br
+
         .container
         block content
  
