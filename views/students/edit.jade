@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+    h1.
+        student ID #{student._id}
+    form(action='/students/#{student._id}/edit',method='post',name='updatestudent',enctype='application/x-www-form-urlencoded')
+        p Name: 
+            input#inputName(type='text', value='#{student.name}', name='name')
+        p Roll: 
+            input#inputRoll(type='number', value='#{student.roll}', name='roll')
+        p batch: 
+            input#inputBatch(type='number', value='#{student.batch}', name='batch')
+        p session: 
+            input#inputName(type='text', value='#{student.session}', name='name')
+        p gender: 
+            input#inputRoll(type='number', value='#{student.gender}', name='roll')
+        p DOB: 
+            input#inputDob(type='date', value='#{studentdob}', name='dob')
+
+        p 
+            input(type='hidden',value='PUT',name='_method')
+        p 
+            button#btnSubmit(type='submit').
+                Update
