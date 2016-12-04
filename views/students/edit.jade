@@ -1,24 +1,42 @@
 extends ../layout
 
 block content
-    h1.
-        student ID #{student._id}
-    form(action='/students/#{student._id}/edit',method='post',name='updatestudent',enctype='application/x-www-form-urlencoded')
-        p Name: 
-            input#inputName(type='text', value='#{student.name}', name='name')
-        p Roll: 
-            input#inputRoll(type='number', value='#{student.roll}', name='roll')
-        p batch: 
-            input#inputBatch(type='number', value='#{student.batch}', name='batch')
-        p session: 
-            input#inputName(type='text', value='#{student.session}', name='name')
-        p gender: 
-            input#inputRoll(type='number', value='#{student.gender}', name='roll')
-        p DOB: 
-            input#inputDoa(type='date', value='#{studentdoa}', name='doa')
+    .container
 
-        p 
+        .col-md-2
+        .col-md-8.form-section
+          form.form-horizontal(role='form', action="/students/#{student._id}/edit",method="post",name='updatestudent',enctype='application/x-www-form-urlencoded')
+            .form-group
+                label.col-sm-4.control-label(for="name") Email address
+                .col-sm-6
+                    input.form-control(type='text', value='#{student.name}', name="name")
+            .form-group
+                label.col-sm-4.control-label(for="roll") Roll
+                .col-sm-6
+                    input.form-control(type='number', value='#{student.roll}', name="roll")
+            .form-group
+                label.col-sm-4.control-label(for="batch") Batch
+                .col-sm-6
+                    select(id="batch", name="batch")
+                        -for(var i = 1;i<=16;i++){
+                        option(value="#{i}") #{i}
+                        -}
+            .form-group
+                label.col-sm-4.control-label(for="session") Session
+                .col-sm-6
+                    input.form-control(type='text', value='#{student.session}', name="session")
+            .form-group
+                label.col-sm-4.control-label(for="gender") Gender
+                .col-sm-6
+                    select(id="gender", name="gender")
+                        option(value="Male") Male
+                        option(value="Female") Female
+            .form-group
+                label.col-sm-4.control-label(for="doa") Date of admission
+                .col-sm-6
+                    input.form-control(type='date', value='#{student.doa}', name="doa")
+                    
             input(type='hidden',value='PUT',name='_method')
-        p 
-            button#btnSubmit(type='submit').
-                Update
+
+            button.btn.btn-primary.submit-btn(type='submit') Submit Information
+        .col-md-2

@@ -45,10 +45,5 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
-});
-
 
 module.exports = router;
-   

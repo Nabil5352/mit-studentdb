@@ -6,7 +6,7 @@ var studentSchema = new mongoose.Schema({
   batch: String,
   session: String,
   gender: String,
-  doa: { type: Date, default: Date.now }
+  doa: String
 });
 
 mongoose.model('Student', studentSchema);

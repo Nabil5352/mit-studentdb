@@ -1,8 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Slabo 27px', serif;
 }
 
 a {
   color: #00B7FF;
+}
+.text-center{
+	text-align: center;
+}
+.error-msg{
+	color: red;
+	text-align: center;
+}
+#menus{
+	list-style: none;
+}
+#menus li{
+	float: left;
+}
+.submit-btn{
+	margin-left: 50%;
+	margin-top: 2em;
+}
+.form-section{
+	margin-top: 3em;
+}
+.profile-btn,
+.edit-btn,
+.delete-btn{
+	float: left;
+	margin-right: 1em;
+}
+.thumbnail img{
+	padding: 2em 2em 0em 1em;
 }

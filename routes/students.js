@@ -14,7 +14,6 @@ router.use(methodOverride(function(req, res){
       }
 }))
 
-/* GET first page. */
 router.route('/')
 //GET all students
 .get(function(req, res, next) {
@@ -39,13 +38,14 @@ router.route('/')
 })
 
 //POST
-.post(function(req, res) {
+.post(isLoggedIn, function(req, res) {
     var name = req.body.name;
     var roll = req.body.roll;
     var batch = req.body.batch;
     var session = req.body.session;
     var gender = req.body.gender;
-    var doa = req.body.dob;
+    var doa = req.body.doa;
+
     //call the create function for our database
     mongoose.model('Student').create({
         name : name,
@@ -56,7 +56,7 @@ router.route('/')
         doa : doa
     }, function (err, student) {
           if (err) {
-              res.send("There was a problem adding the information to the database.");
+              res.send(err);
           } else {
               console.log('POST creating new student: ' + student);
               res.format({
@@ -74,7 +74,12 @@ router.route('/')
 
 /* ADD NEW */
 router.get('/new', function(req, res) {
-    res.render('students/new', { title: 'Add New Student' });
+    if (req.user) {
+      res.render('students/new', { title: 'Add New Student' });
+    }else{
+      res.redirect('/login');
+    }
+    
 });
 
 // route middleware to validate :id
@@ -109,17 +114,10 @@ router.route('/:id')
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
         console.log('GET Retrieving ID: ' + student._id);
-        if (typeof query !== 'undefined' && query !== null){
-           var studentdoa = student.doa.toISOString();
-            studentdoa = studentdoa.substring(0, studentdoa.indexOf('T'));
-        } else {
-          var studentdoa = "No date given";
-        }
         
         res.format({
           html: function(){
               res.render('students/show', {
-                "studentdoa" : studentdoa,
                 "student" : student
               });
           },
@@ -133,22 +131,18 @@ router.route('/:id')
 
 
 //GET the individual info by Mongo ID
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', isLoggedIn, function(req, res) {
     mongoose.model('Student').findById(req.id, function (err, student) {
         if (err) {
             console.log('GET Error: There was a problem retrieving: ' + err);
         } else {
-            //Return the blob
             console.log('GET Retrieving ID: ' + student._id);
-            //format the date properly for the value to show correctly in our edit form
-          var studentdoa = student.doa.toISOString();
-          studentdoa = studentdoa.substring(0, studentdoa.indexOf('T'))
+
             res.format({
                 //HTML response will render the 'edit.jade' template
                 html: function(){
                        res.render('students/edit', {
                           title: 'Student' + student._id,
-                          "studentdoa" : studentdoa,
                           "student" : student
                       });
                  },
@@ -162,13 +156,13 @@ router.get('/:id/edit', function(req, res) {
 
 
 //PUT
-router.put('/:id/edit', function(req, res) {
+router.put('/:id/edit', isLoggedIn, function(req, res) {
     var name = req.body.name;
     var roll = req.body.roll;
     var batch = req.body.batch;
     var session = req.body.session;
     var gender = req.body.gender;
-    var doa = req.body.dob;
+    var doa = req.body.doa;
 
     mongoose.model('Student').findById(req.id, function (err, student) {
         //update it
@@ -186,7 +180,7 @@ router.put('/:id/edit', function(req, res) {
           else {
                   res.format({
                       html: function(){
-                           res.redirect("/students/" + student._id);
+                           res.redirect("/students");
                      },
                      json: function(){
                            res.json(student);
@@ -199,7 +193,7 @@ router.put('/:id/edit', function(req, res) {
 
 
 //DELETE
-router.delete('/:id/edit', function (req, res){
+router.delete('/:id/edit', isLoggedIn, function (req, res){
     mongoose.model('Student').findById(req.id, function (err, student) {
         if (err) {
             return console.error(err);
@@ -228,3 +222,9 @@ router.delete('/:id/edit', function (req, res){
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {  
+  if (req.isAuthenticated())
+      return next();
+  res.redirect('/login');
+}

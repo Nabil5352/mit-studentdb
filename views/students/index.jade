@@ -1,21 +1,31 @@
 extends ../layout
 
 block content
-    h1.
-         #{title}
-    ul
-        - each student, i in students
-            li
-                = student.name
-                = student.badge
-                = student.dob
-                = student.isloved
-                = student._id
-                form(action='/student/#{student._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit').
-                        Delete
-                p 
-                    a(href='/blobs/#{student._id}/edit') Edit
-                p
-                    a(href='/blobs/#{student._id}') Show
+    .container
+        .col-md-12
+            h1.text-center #{title}
+            
+            .row
+                - each student, i in students
+                    .col-sm-63.col-md-4
+                        .thumbnail
+                            img(src="http://www.iit.du.ac.bd/assets/img/iitlogo-blue.png" alt="student-db")
+
+                        .caption
+                            h4 Student ID #{student._id}
+                            p Name: #{student.name}
+                            p Roll: #{student.roll}
+                            p Batch: #{student.batch}
+                            p Session: #{student.session}
+                            p Gender: #{student.gender}
+                            p Date of admission: #{student.doa}
+
+                            p 
+                                a.btn.btn-info.profile-btn(href='/students/#{student._id}') View Profile
+                                if (!user)
+                                    a.btn.btn-primary.edit-btn(href='/students/#{student._id}/edit') Edit
+
+                                    form(action='/students/#{student._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                                        input(type='hidden',value='DELETE',name='_method')
+                                        button.btn.btn-danger(type='submit').
+                                            Delete

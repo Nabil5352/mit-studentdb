@@ -1,16 +1,42 @@
 extends ../layout
 
 block content
-    h1.
-        #{title}
-    form#formAddStudent(name="addstudent",method="post",action="/students")
-        p Name: 
-            input#inputName(type="text", placeholder="ex. John Doe", name="name")
-        p Roll:
-            input#inputBadge(type="number", placeholder="ex. 123456", name="badge")
-        p DOA: 
-            input#inputDoa(type="date", name="doa")
-        p Are You Loved?: 
-            input#inputIsLoved(type="checkbox", name="isloved")
-        p
-            button#btnSubmit(type="submit") submit
+    .container
+        h1.text-center #{title}
+
+        .col-md-2
+        .col-md-8.form-section
+          form.form-horizontal(role='form', action="/students",method="post")
+            .form-group
+                label.col-sm-4.control-label(for="name") Email address
+                .col-sm-6
+                    input.form-control(type='text', placeholder="ex. John Doe", name="name")
+            .form-group
+                label.col-sm-4.control-label(for="roll") Roll
+                .col-sm-6
+                    input.form-control(type='number', placeholder="ex. 161505", name="roll")
+            .form-group
+                label.col-sm-4.control-label(for="batch") Batch
+                .col-sm-6
+                    select(id="batch", name="batch")
+                        -for(var i = 1;i<=16;i++){
+                        option(value="#{i}") #{i}
+                        -}
+            .form-group
+                label.col-sm-4.control-label(for="session") Session
+                .col-sm-6
+                    input.form-control(type='text', placeholder="ex. 2016-17", name="session")
+            .form-group
+                label.col-sm-4.control-label(for="gender") Gender
+                .col-sm-6
+                    select(id="gender", name="gender")
+                        option(value="Male") Male
+                        option(value="Female") Female
+            .form-group
+                label.col-sm-4.control-label(for="doa") Date of admission
+                .col-sm-6
+                    input.form-control(type='date', placeholder="ex. 2015-31-11", name="doa")
+
+            button.btn.btn-primary.submit-btn(type='submit') Submit Information
+        .col-md-2
+            

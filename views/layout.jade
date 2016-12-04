@@ -1,21 +1,45 @@
 doctype html
 html( lang="en" )
     head
-        title= title
+        title= "MIT-MongoDB"
         meta( charset='utf-8' )
         meta( http-equiv='X-UA-Compatible', content='IE=edge' )
         meta( name='viewport', content='width=device-width, initial-scale=1.0' )
         meta( name='description', content='JADE' )
-        link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
+        link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
         link(rel='stylesheet', href='/stylesheets/style.css')
+    
     body(style="padding-bottom:10rem;")
-        if (error && error.length > 0)
-        br
-        h4.error-msg= error
-        br
-
         .container
-        block content
+            .col-md-12
+                nav.navbar.navbar-inverse
+                    .container-fluid
+                        .navbar-header
+                            a.navbar-brand(href="#") MIT STUDENT DB
+
+                        .collapse.navbar-collapse#mit-student-db
+                            ul.nav.navbar-nav
+                                li.active
+                                    a(href="/students") All Students
+                                li
+                                    a(href="/students/new") Add New
+
+                            ul.nav.navbar-nav.navbar-right
+                                if (!user)
+                                    li
+                                        a(href="/register") Sign Up
+                                    li
+                                        a(href="/login") Sign In
+                                else
+                                    li
+                                        a(href="/logout") Logout
+
+
+            .col-md-12
+                if (error && error.length > 0)
+                h5.error-msg= error
+
+                block content   
  
-        script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
-        script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
+    script( src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js' )
+    script( src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' )
